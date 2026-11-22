@@ -7,11 +7,12 @@ import { useCart } from '../context/CartContext'
 
 export default function AccountPage() {
   const { user } = useAuth()
-  const { items } = useCart()
+  const { items, configuratorItems } = useCart()
 
   if (!user) return <Navigate to="/login" />
 
   const previewItems = items.slice(0, 3)
+  const hasAnyItems = items.length > 0 || configuratorItems.length > 0
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -60,11 +61,11 @@ export default function AccountPage() {
               </Link>
             </div>
 
-            {previewItems.length === 0 ? (
+            {!hasAnyItems ? (
               <div className="py-12 text-center">
                 <span className="text-5xl mb-3 block">📦</span>
                 <h3 className="text-lg font-bold text-gray-700">Koszyk jest pusty</h3>
-                <p className="text-gray-400 text-sm mt-1">Dodaj pierwsze materiały budowlane do koszyka.</p>
+                <p className="text-gray-400 text-sm mt-1">Dodaj pierwsze materiały budowlane lub stwórz projekt w konfiguratorze.</p>
                 <Link
                   to="/store"
                   className="mt-6 inline-flex px-6 py-2.5 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 transition-colors shadow-sm text-sm"
@@ -73,10 +74,31 @@ export default function AccountPage() {
                 </Link>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {previewItems.map((item) => (
-                  <ProductCard key={item.id} product={item} quantity={item.quantity} />
-                ))}
+              <div className="space-y-6">
+                {previewItems.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {previewItems.map((item) => (
+                      <ProductCard key={item.id} product={item} quantity={item.quantity} />
+                    ))}
+                  </div>
+                )}
+                {configuratorItems.length > 0 && (
+                  <div className="p-4 bg-orange-50 border border-orange-200 rounded-2xl flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">🏠</span>
+                      <div>
+                        <p className="font-bold text-gray-900">Skonfigurowane domki w koszyku: {configuratorItems.length}</p>
+                        <p className="text-xs text-gray-500">Przejdź do koszyka, aby dokończyć zamówienie.</p>
+                      </div>
+                    </div>
+                    <Link
+                      to="/cart"
+                      className="px-4 py-2 bg-orange-600 text-white text-xs font-bold rounded-xl hover:bg-orange-700 transition-colors"
+                    >
+                      Zobacz w koszyku
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
           </div>

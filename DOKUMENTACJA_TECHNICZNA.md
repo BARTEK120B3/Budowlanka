@@ -1,128 +1,157 @@
-# DOKUMENTACJA TECHNICZNA PROJEKTU: MIGRACJA ARCHITEKTURY I DOMENY BIZNESOWEJ
+# DOKUMENTACJA PROJEKTU: SKLEP BUDOWLANY "BUDMASTER"
 
-## 1. TABELA MAPOWANIA ZASOBÓW PROJEKTU (PHP -> REACT/VITE)
-
-| Komponent PHP (Źródło) | Odpowiednik React (Cel) | Ścieżka docelowa | Funkcja w systemie |
-| :--- | :--- | :--- | :--- |
-| `sklep_muzyczny/index.php` | `App.jsx` + `HomePage.jsx` | `src/App.jsx`, `src/pages/HomePage.jsx` | Punkt wejścia SPA, routing klienta |
-| `sklep_muzyczny/html/store.php` | `StorePage.jsx` | `src/pages/StorePage.jsx` | Katalog produktów, filtry, sortowanie |
-| `sklep_muzyczny/html/product.php`| `ProductPage.jsx` | `src/pages/ProductPage.jsx` | Karta produktu, opinie, dodawanie do koszyka |
-| `sklep_muzyczny/html/login.php` | `LoginPage.jsx` | `src/pages/LoginPage.jsx` | Formularze autoryzacji i rejestracji |
-| `sklep_muzyczny/html/cart.php` | `CartPage.jsx` | `src/pages/CartPage.jsx` | Koszyk zamówień, lista konfiguracji |
-| `sklep_muzyczny/html/account.php` | `AccountPage.jsx` | `src/pages/AccountPage.jsx` | Panel klienta, historia sesji |
-| `sklep_muzyczny/html/guitar.php` | `ConfiguratorPage.jsx` | `src/pages/ConfiguratorPage.jsx` | Konfigurator domku narzędziowego |
-| `sklep_muzyczny/components/header.php` | `Header.jsx` | `src/components/Header.jsx` | Pasek nawigacyjny z detekcją sesji |
-| `sklep_muzyczny/components/footer.shtml` | `Footer.jsx` | `src/components/Footer.jsx` | Stopka informacyjna |
-| `sklep_muzyczny/components/product_comp.php` | `ProductCard.jsx` | `src/components/ProductCard.jsx` | Generyczna karta produktowa |
-| `sklep_muzyczny/handlers/account_login.php` | `AuthContext.jsx::login` | `src/context/AuthContext.jsx` | Stan i metody uwierzytelniania |
-| `sklep_muzyczny/handlers/account_create.php`| `AuthContext.jsx::register`| `src/context/AuthContext.jsx` | Walidacja i rejestracja konta |
-| `sklep_muzyczny/handlers/cart_add.php` | `CartContext.jsx::addToCart` | `src/context/CartContext.jsx` | Zarządzanie stanem koszyka |
-| `sklep_muzyczny/handlers/save_guitar.php` | `CartContext.jsx::addConfiguratorToCart` | `src/context/CartContext.jsx` | Zapis zestawu konfiguratora |
-| `sklep_muzyczny/scripts/mysql_connect.php` | Mock / Data Layer | `src/data/products.js` | Statyczna warstwa danych produktów |
-| `sklep_muzyczny/css/main.css` | Tailwind / CSS | `src/index.css` | Style globalne i tokeny projektowe |
+**Przedmiot:** Testowanie i dokumentowanie aplikacji (TiDA)  
+**Klasa:** 5TP (Technik Programista)  
+**Rok szkolny:** 2025/2026  
+**Technologie:** React 19, Vite 8, Tailwind CSS, Vitest 5, React Testing Library  
 
 ---
 
-## 2. REJESTR USUNIĘTYCH BŁĘDÓW WIZUALNYCH I OPTYMALIZACJI UI
+## 1. Wstęp i opis projektu
 
-| Obszar / Plik | Zidentyfikowany błąd wizualny | Zastosowane rozwiązanie architektoniczne | Stan po naprawie |
-| :--- | :--- | :--- | :--- |
-| `src/index.css` | Ostrzeżenia LightningCSS `@tailwind` at-rules | Usunięcie dyrektyw kompilatora, wdrożenie natywnych zmiennych CSS i resetu | Kompilacja 100% czysta (0 warnings) |
-| `src/components/Header.jsx` | Poziomy pasek przewijania (`w-screen`), nakładanie treści | Przejście na `w-full`, dodanie `backdrop-blur-md`, paddingu systemowego i kontenera `max-w-7xl` | Płynny fixed navbar bez overflow |
-| `src/pages/HomePage.jsx` | Podwójne sekcje `h-[100vh]` z ukrytą treścią i pustką | Kompaktowy, responsywny Hero z tagami i siatka referencji | Pełna czytelność Above The Fold |
-| `src/pages/StorePage.jsx` | Nagłówek `100vh` spychający katalog poza ekran | Banner nagłówkowy `pt-28 pb-12`, dwukolumnowy układ z responsywnym panelem filtrów | Natychmiastowa widoczność towarów |
-| `src/components/ProductCard.jsx` | Puste szare tło i niesformatowany emoji `🏗️` | Dynamiczne tła gradientowe według kategorii, status magazynowy, hover lift `-translate-y-1` | Nowoczesne karty z mikromacierzami |
-| `src/pages/ProductPage.jsx` | Sztywny margines `m-[250px_0_108px_0]` i 6-kolumnowy grid | Usunięcie arbitralnych marginesów, grid responsywny `1->2->4`, czytelny breadcrumb | Poprawny layout na każdym ekranie |
-| `src/pages/ConfiguratorPage.jsx` | Nagłówek `100vh` oraz uciekające podsumowanie cenowe | Skrócenie nagłówka, sticky sidebar (`sticky top-28`) z sumowaniem w czasie rzeczywistym | Koszyk konfiguratora widoczny w trakcie scrolla |
-| `src/pages/CartPage.jsx` | Zwężony kontener `w-1/2` ucinający zawartość na tabletach | Układ dwukolumnowy `flex-1` + `w-96`, podsumowanie zamówienia z darmową dostawą | Pełna responsywność koszyka |
-| `src/pages/LoginPage.jsx` | Sztywne szerokości inputów `w-[55%]`, `basis-40%` | Dwie niezależne, zbalansowane karty formularzy z focus-ringami i siatką pól | Estetyczne formularze z walidacją |
-| `src/components/Footer.jsx` | Tło gradientowe z jasnoniebieskiego i brak kontrastu | Głęboki grafit `bg-slate-950` z wyraźnym podziałem 4-kolumnowym | Standard korporacyjny stopki e-commerce |
+Projekt został zrealizowany w ramach zajęć z przedmiotu *Testowanie i dokumentowanie aplikacji*. Aplikacja to nowoczesny sklep internetowy typu SPA (Single Page Application) dla marketu budowlanego **BudMaster**, stworzony w bibliotece React z wykorzystaniem narzędzia Vite. 
 
----
+Klient ma możliwość przeglądania katalogu materiałów budowlanych i narzędzi, filtrowania i sortowania produktów, rejestracji oraz logowania, a także samodzielnego zaprojektowania domku narzędziowego w dedykowanym konfiguratorze modułowym. Całość wieńczy moduł kasy z możliwością sfinalizowania zamówienia.
 
-## 3. TABELA MODELU DANYCH PO MIGRACJI DOMENOWEJ
-
-| Tabela relacyjna | Pole | Typ danych | Klucz | Opis biznesowy |
-| :--- | :--- | :--- | :--- | :--- |
-| `kategoria_produktu` | `Id_kategorii_produktu` | `INT(11)` | `PK, AI` | Identyfikator kategorii budowlanej |
-| `kategoria_produktu` | `Nazwa_kategorii_produktu` | `VARCHAR(60)` | - | Nazwa działu (np. Elektronarzędzia, Instalacje) |
-| `kategoria_produktu` | `Opis_kategorii_produktu` | `TEXT` | - | Charakterystyka asortymentu w kategorii |
-| `produkt` | `Id_produktu` | `BIGINT(20)` | `PK, AI` | Identyfikator jednostki towarowej |
-| `produkt` | `Nazwa_produktu` | `VARCHAR(100)` | - | Nazwa handlowa materiału/narzędzia |
-| `produkt` | `Opis_produktu` | `TEXT` | - | Karta techniczna artykułu |
-| `produkt` | `Cena_jednostkowa` | `DECIMAL(8,2)` | - | Wartość brutto w PLN |
-| `produkt` | `Zdjecie_produktu` | `VARCHAR(100)` | - | Ścieżka do pliku graficznego |
-| `produkt` | `Id_kategorii_produktu` | `INT(11)` | `FK` | Relacja do tabeli `kategoria_produktu` |
-| `klient` | `Id_klienta` | `BIGINT(20)` | `PK, AI` | Identyfikator klienta |
-| `klient` | `Email` | `VARCHAR(60)` | `UNIQUE` | Identyfikator logowania |
-| `klient` | `haslo` | `VARCHAR(255)` | - | Zaszyfrowany hash hasła |
-| `koszyk` | `Id_koszyka` | `BIGINT(20)` | `PK, AI` | Identyfikator koszyka |
-| `koszyk` | `Id_klienta` | `BIGINT(20)` | `FK` | Relacja 1:1 z klientem |
-| `produkt_koszyk` | `Id_produktu`, `Id_koszyka`| `BIGINT(20)` | `COMPOSITE PK` | Asocjacja produktu z koszykiem |
-| `produkt_koszyk` | `ilosc` | `MEDIUMINT(8)` | - | Liczba zamówionych sztuk/opakowań |
-| `domek_narzedziowy` | `Id_domku` | `INT(11)` | `PK, AI` | Instancja skonfigurowanego domku (d. gitara) |
-| `domek_narzedziowy` | `Id_scian` | `BIGINT(20)` | `FK` | Wybrany wariant ścian (kat. 101) |
-| `domek_narzedziowy` | `Id_dachu` | `BIGINT(20)` | `FK` | Wybrany wariant pokrycia dachowego (kat. 102) |
-| `domek_narzedziowy` | `Id_podlogi` | `BIGINT(20)` | `FK` | Wybrany wariant podłogi (kat. 103) |
-| `domek_narzedziowy` | `Id_drzwi` | `BIGINT(20)` | `FK` | Wybrany model drzwi (kat. 104) |
-| `domek_narzedziowy` | `Id_okna` | `BIGINT(20)` | `FK` | Wybrany moduł stolarki okiennej (kat. 105) |
-| `domek_narzedziowy` | `Cena_calkowita` | `DECIMAL(10,2)`| - | Suma bazowa + suma komponentów |
-| `domek_koszyk` | `Id_domku`, `Id_koszyka` | `INT/BIGINT` | `COMPOSITE PK` | Powiązanie instancji domku z koszykiem |
-| `opinia` | `Id_opinii` | `BIGINT(20)` | `PK, AI` | Identyfikator recenzji |
-| `opinia` | `Tresc_opinii` | `TEXT` | - | Treść opinii klienta |
-| `opinia` | `Id_produktu` | `BIGINT(20)` | `FK` | Powiązany produkt budowlany |
-| `opinia` | `Id_klienta` | `BIGINT(20)` | `FK` | Autor recenzji |
+### Główne funkcjonalności aplikacji:
+- **Katalog produktów i sklep (`StorePage`):** Wyszukiwarka tekstowa (szukanie w nazwach, opisach i kategoriach), filtrowanie po kategoriach, sortowanie po cenie rosnąco i malejąco.
+- **Szczegóły produktu (`ProductPage`):** Dynamicznie dobrane ikony i tła kategorii, opis techniczny, wybór ilości zamawianych sztuk, sekcja powiązanych artykułów oraz system dodawania opinii przez zalogowanych użytkowników.
+- **Kreator domku narzędziowego (`ConfiguratorPage`):** Interaktywny konfigurator pozwalający dobrać 5 modułów (ściany, dach, podłogę, drzwi, okna) z dynamicznym przeliczaniem ceny całkowitej (cena bazowa konstrukcji szkieletowej 2000 zł + wybrane komponenty).
+- **Koszyk zakupowy (`CartPage`):** Zbiorczy podgląd dodanych materiałów oraz zaprojektowanych domków, możliwość usuwania pojedynczych towarów oraz całych projektów domków, wyliczanie łącznej kwoty do zapłaty.
+- **Kasa i finalizacja zakupu (`CheckoutPage`):** Formularz danych wysyłkowych z walidacją, wybór metody płatności (BLIK, przelew, za pobraniem), generowanie numeru zamówienia `BM-XXXXXX` oraz czyszczenie koszyka.
+- **Panel klienta (`AccountPage`):** Dane zalogowanego użytkownika oraz szybki podgląd aktualnego koszyka.
+- **System autoryzacji (`AuthContext`):** Rejestracja, logowanie z weryfikacją hasła, zapobieganie duplikatom e-mail i wylogowanie (dane zachowywane w `localStorage`).
 
 ---
 
-## 4. DIAGRAM STRUKTURY WIZUALNEJ LAYOUTU (ASCII)
+## 2. Architektura i struktura plików projektu
 
-```
-+-------------------------------------------------------------------------+
-| [Header] w-full fixed top-0 h-20 bg-white/90 backdrop-blur-md           |
-| [Logo: 🏗️ BudMaster]         [Sklep] [Konfigurator 3D] [Koszyk] [Konto]|
-+-------------------------------------------------------------------------+
-|                                                                         |
-|                          (Główny obszar widoku)                         |
-|                                                                         |
-| +-------------------------+  +----------------------------------------+ |
-| |       SIDEBAR           |  |           SIATKA PRODUKTÓW             | |
-| |  - Szukaj produktu      |  |                                        | |
-| |  - Sortowanie (Cena)    |  |  +------------+ +------------+         | |
-| |  - Kategorie:           |  |  | Produkt 1  | | Produkt 2  |         | |
-| |    * Narzędzia          |  |  |  [Ikona]   | |  [Ikona]   |         | |
-| |    * Elektronarzędzia   |  |  |  [Cena]    | |  [Cena]    |         | |
-| |    * Materiały          |  |  | [Szczegóły]| | [Szczegóły]|         | |
-| |    * Instalacje         |  |  +------------+ +------------+         | |
-| |    * Farby / Lakiery    |  |                                        | |
-| |    * Oświetlenie        |  |  +------------+ +------------+         | |
-| |                         |  |  | Produkt 3  | | Produkt 4  |         | |
-| +-------------------------+  +----------------------------------------+ |
-|                                                                         |
-+-------------------------------------------------------------------------+
-| [Footer] bg-slate-950 text-gray-300 py-16                               |
-| [O firmie BudMaster]   [Kontakt]   [Social Media]   [Informacje/Prawa]  |
-+-------------------------------------------------------------------------+
+Aplikacja została podzielona na moduły z podziałem na strony (`pages`), komponenty wielokrotnego użytku (`components`), warstwę stanu (`context`), dane (`data`) oraz testy jednostkowe i integracyjne (`__tests__`).
+
+| Komponent / Plik | Ścieżka w projekcie | Rola w systemie |
+| :--- | :--- | :--- |
+| `HomePage.jsx` | `src/pages/HomePage.jsx` | Strona główna z banerem powitalnym i sekcją opinii klientów |
+| `StorePage.jsx` | `src/pages/StorePage.jsx` | Katalog produktów, wyszukiwarka, filtry kategorii i sortowanie cen |
+| `ProductPage.jsx` | `src/pages/ProductPage.jsx` | Karta produktu, dobór ikony kategorii, opinie i dodawanie do koszyka |
+| `LoginPage.jsx` | `src/pages/LoginPage.jsx` | Formularze logowania i rejestracji nowych klientów |
+| `CartPage.jsx` | `src/pages/CartPage.jsx` | Koszyk zamówień z listą towarów, zestawów domków i łączną kwotą |
+| `CheckoutPage.jsx` | `src/pages/CheckoutPage.jsx` | Moduł kasy: formularz dostawy, wybór płatności, złożenie zamówienia |
+| `AccountPage.jsx` | `src/pages/AccountPage.jsx` | Profil użytkownika z podglądem zawartości koszyka |
+| `ConfiguratorPage.jsx` | `src/pages/ConfiguratorPage.jsx` | Modułowy konfigurator 5 kroków budowy domku narzędziowego |
+| `Header.jsx` | `src/components/Header.jsx` | Pasek nawigacyjny z logo, linkami i dynamicznym licznikiem koszyka |
+| `Footer.jsx` | `src/components/Footer.jsx` | Stopka informacyjna z danymi kontaktowymi i prawami autorskimi |
+| `ProductCard.jsx` | `src/components/ProductCard.jsx` | Kafelek produktu używany w sklepie, konfiguratorze i profilu |
+| `AuthContext.jsx` | `src/context/AuthContext.jsx` | Kontekst uwierzytelniania, rejestracji i stanu zalogowania |
+| `CartContext.jsx` | `src/context/CartContext.jsx` | Kontekst koszyka dla produktów standardowych i konfiguracji domków |
+| `products.js` | `src/data/products.js` | Baza produktów, kategorii, komponentów konfiguratora i mapowania ikon |
+
+---
+
+## 3. Zgłoszone usterki i wprowadzone poprawki
+
+Podczas testowania aplikacji wykryliśmy błędy w interfejsie oraz logice działania, które zostały wyeliminowane:
+
+| Wykryta usterka (błąd) | Gdzie występowała | Zastosowana poprawka |
+| :--- | :--- | :--- |
+| **Zła ikona produktu na karcie szczegółów** | `ProductPage.jsx` | Na stronie produktu wyświetlała się na stałe ikona dźwigu `🏗️`. Wprowadziliśmy globalne mapowanie `categoryIcons` w `products.js` – teraz narzędzia mają młotek `🔨`, elektronarzędzia piorun `⚡`, farby paletę `🎨`, materiały cegły `🧱`, a elementy domku drewno `🪵` i okna `🪟`. |
+| **Przycisk w konfiguratorze domku wychodził poza kartę** | `ProductCard.jsx` | W trybie konfiguratora przyciski „Dodaj do konfiguratora” i „Szczegóły” znajdowały się obok siebie w jednym rzędzie, co rozpychało kartę i psuło układ. Zmieniliśmy układ: przycisk dodawania ma pełną szerokość (`w-full`), a link do szczegółów umieszczono pod spodem. |
+| **Brak opcji usunięcia domku z koszyka** | `CartPage.jsx`, `CartContext.jsx` | Koszyk pozwalał na usuwanie jedynie zwykłych produktów. Zapisany domek zostawał w koszyku na stałe. Dodaliśmy funkcję `removeConfiguratorFromCart` w kontekście oraz przycisk *„Usuń konfigurację”* przy każdym projekcie. |
+| **Błędna kwota do zapłaty w koszyku** | `CartPage.jsx` | Podsumowanie w sekcji bocznej wyświetlało `totalPrice` (kwotę samych materiałów standardowych), ignorując wartość skonfigurowanego domku. Poprawiliśmy to na `grandTotal`, która poprawnie sumuje materiały oraz konfiguracje domków. |
+| **Licznik koszyka w nagłówku ignorował domki** | `CartContext.jsx` | Licznik w menu `Header` pokazywał `0`, nawet gdy w koszyku znajdował się domek. Poprawiliśmy `totalCount`, aby zliczał liczbę sztuk zwykłych towarów oraz liczbę projektów domków. |
+| **Komunikat o pustym koszyku na profilu użytkownika pomimo dodanego domku** | `AccountPage.jsx` | Gdy klient dodał do koszyka sam domek, w profilu pojawiał się komunikat *„Koszyk jest pusty”*. Dodaliśmy w panelu konta informację o skonfigurowanych domkach z linkiem do koszyka. |
+| **Wyszukiwarka nie przeszukiwała opisów** | `StorePage.jsx` | Wyszukiwanie działało wyłącznie po tytule i nazwie kategorii. Dodaliśmy sprawdzanie pola `description`, co pozwala odnaleźć produkty po ich cechach technicznych (np. „akumulator”, „gips”). |
+| **Nieaktywny przycisk „Przejdź do kasy”** | `CartPage.jsx` | Przycisk w koszyku nie posiadał obsługi zdarzenia `onClick`. Podpięliśmy nawigację do nowej strony `/checkout` oraz zablokowaliśmy przycisk w sytuacji, gdy koszyk jest pusty. |
+
+---
+
+## 4. Moduł kasy i finalizacji zakupu (`CheckoutPage.jsx`)
+
+Dla zapewnienia pełnego cyklu zakupowego wdrożyliśmy podstronę `/checkout`.
+
+### Zasada działania modułu kasy:
+1. **Ochrona dostępu:** Użytkownik niezalogowany jest automatycznie przekierowywany na stronę logowania (`/login`).
+2. **Weryfikacja zawartości koszyka:** W przypadku pustego koszyka wyświetla się odpowiedni komunikat wraz z przyciskiem powrotu do katalogu.
+3. **Formularz dostawy:**
+   - Imię i nazwisko (pobierane domyślnie z profilu zalogowanego użytkownika),
+   - Adres e-mail,
+   - Numer telefonu kontaktowego,
+   - Ulica i numer budynku/lokalu,
+   - Miasto oraz kod pocztowy.
+4. **Walidacja danych:** Sprawdzane jest wypełnienie wszystkich wymaganych pól. Przy próbie wysłania pustego formularza pojawiają się czytelne komunikaty błędów.
+5. **Metody płatności:**
+   - 💳 Przelew bankowy tradycyjny,
+   - 📱 Płatność kodem BLIK,
+   - 📦 Płatność przy odbiorze (za pobraniem).
+6. **Boczne podsumowanie:** Zestawienie pozycji (standardowe materiały + konfiguracje domków), darmowa dostawa paletowa oraz łączna kwota do zapłaty.
+7. **Obsługa złożenia zamówienia:**
+   - Generowany jest unikalny identyfikator zamówienia (np. `BM-739102`),
+   - Koszyk zostaje wyczyszczony (`clearCart`),
+   - Wyświetla się ekran potwierdzenia zakupu z podanym numerem i możliwością powrotu na stronę główną lub do sklepu.
+
+---
+
+## 5. Raport z testów automatycznych
+
+Do weryfikacji poprawności działania aplikacji wykorzystano środowisko **Vitest** oraz bibliotekę **React Testing Library** (środowisko DOM emulowane za pomocą **jsdom**).
+
+Testy uruchamia się poleceniem:
+```bash
+npm test
 ```
 
+### Zestawienie wyników testów:
+
+| Lp. | Plik testowy | Liczba testów | Zakres sprawdzanych funkcjonalności | Wynik |
+| :---: | :--- | :---: | :--- | :---: |
+| 1 | `src/__tests__/products.test.js` | 11 | Integralność danych produktów, poprawność kategorii, unikalność identyfikatorów ID | **PASSED** |
+| 2 | `src/__tests__/AuthContext.test.jsx` | 7 | Rejestracja, blokowanie duplikatów e-mail, logowanie, błędne hasło, wylogowanie | **PASSED** |
+| 3 | `src/__tests__/CartContext.test.jsx` | 8 | Dodawanie towarów, zwiększanie ilości, usuwanie materiałów i domków, czyszczenie koszyka | **PASSED** |
+| 4 | `src/__tests__/Header.test.jsx` | 5 | Wyświetlanie logo, linki nawigacji, ukrywanie koszyka dla gości, licznik pozycji | **PASSED** |
+| 5 | `src/__tests__/Footer.test.jsx` | 5 | Dane teleadresowe BudMaster, linki social media, stopka z prawami autorskimi | **PASSED** |
+| 6 | `src/__tests__/ProductCard.test.jsx` | 7 | Renderowanie karty, formatowanie cen PLN, przycisk szczegółów, tryb konfiguratora | **PASSED** |
+| 7 | `src/__tests__/HomePage.test.jsx` | 6 | Sekcja główna Hero, opinie klientów z ocenami gwiazdkowymi, przyciski skrótów | **PASSED** |
+| 8 | `src/__tests__/StorePage.test.jsx` | 8 | Wyszukiwanie produktów, filtrowanie kategorii, sortowanie cenowe, przycisk resetu | **PASSED** |
+| 9 | `src/__tests__/ProductPage.test.jsx` | 8 | Ładowanie danych produktu, poprawna ikona kategorii, dodawanie do koszyka, opinie | **PASSED** |
+| 10 | `src/__tests__/LoginPage.test.jsx` | 4 | Formularz logowania i rejestracji, walidacja pustych pól, rejestracja klienta | **PASSED** |
+| 11 | `src/__tests__/CartPage.test.jsx` | 4 | Obsługa pustego koszyka, usuwanie towarów i domków, sumowanie, przejście do kasy | **PASSED** |
+| 12 | `src/__tests__/CheckoutPage.test.jsx` | 7 | Przekierowanie niezalogowanych, walidacja formularza, wybór BLIK, numer BM-XXXXXX | **PASSED** |
+| 13 | `src/__tests__/AccountPage.test.jsx` | 3 | Powitanie użytkownika, blokada dla gości, podgląd skonfigurowanych domków w koszyku | **PASSED** |
+| 14 | `src/__tests__/ConfiguratorPage.test.jsx` | 5 | Weryfikacja 5 kroków, blokada zapisu niekompletnego projektu, dodawanie i usuwanie części | **PASSED** |
+| 15 | `src/__tests__/EndToEndFlow.test.jsx` | 1 | **Kompleksowy test E2E:** Rejestracja klienta -> Wyszukanie wiertarki w sklepie -> Dodanie do koszyka -> Konfiguracja domku (5/5) -> Przejście do kasy -> Formularz wysyłki i BLIK -> Złożenie zamówienia | **PASSED** |
+| **SUMA** | **15 plików testowych** | **89 testów** | **Wszystkie asercje zakończone powodzeniem** | **89 / 89 ZALICZONE (100%)** |
+
 ---
 
-## 5. MACIERZ WERYFIKACJI INŻYNIERII JAKOŚCI (WYNIKI TESTÓW)
+## 6. Instrukcja instalacji i uruchomienia projektu
 
-| Plik zestawu testowego | Liczba testów | Czas wykonania | Weryfikowane reguły biznesowe |
-| :--- | :--- | :--- | :--- |
-| `src/__tests__/products.test.js` | 11 | 5ms | Poprawność typów, unikalność ID, integralność relacji kategorii z produktami |
-| `src/__tests__/CartContext.test.jsx` | 7 | 17ms | Inkrementacja ilości, usuwanie pozycji, czyszczenie koszyka, kalkulacja sumaryczna |
-| `src/__tests__/AuthContext.test.jsx` | 7 | 16ms | Rejestracja, unikalność e-mail, weryfikacja hasła, terminacja sesji |
-| `src/__tests__/Header.test.jsx` | 5 | 42ms | Rendering nawigacji, warunkowe renderowanie linków sesyjnych |
-| `src/__tests__/Footer.test.jsx` | 5 | 48ms | Integralność danych kontaktowych, linków i stopki |
-| `src/__tests__/ProductCard.test.jsx` | 7 | 59ms | Formatowanie cen PLN, przełącznik widoku konfiguratora, obsługa selektorów |
-| `src/__tests__/HomePage.test.jsx` | 6 | 92ms | Routing modułów głównych, sekcja referencji klientów |
-| `src/__tests__/StorePage.test.jsx` | 8 | 427ms | Filtr tekstu w nazwach i kategoriach, sortowanie rosnąco/malejąco, resetowanie |
-| `src/__tests__/ProductPage.test.jsx` | 5 | 165ms | Pobieranie parametrów URL, walidacja formularza recenzji, asercje autoryzacji |
-| `src/__tests__/LoginPage.test.jsx` | 3 | 247ms | Walidacja pól formularza, reakcja na błędne poświadczenia |
-| `src/__tests__/CartPage.test.jsx` | 2 | 69ms | Podgląd pustego i wypełnionego koszyka, obsługa usuwania pozycji |
-| `src/__tests__/AccountPage.test.jsx` | 1 | 32ms | Personalizacja nagłówka, skróty nawigacyjne do zamówień |
-| `src/__tests__/ConfiguratorPage.test.jsx` | 4 | 371ms | Zabezpieczenie przed niepełnym wyborem, aktualizacja cen live, transfer do bazy |
-| `src/__tests__/EndToEndFlow.test.jsx` | 1 | 338ms | Pełna ścieżka E2E: Rejestracja -> Wyszukanie wiertarki -> Karta -> Koszyk |
-| **SUMA** | **72** | **1790ms** | **Wszystkie asercje zakończone statusem: PASSED** |
+### Wymagania wstępne:
+- Zainstalowane środowisko **Node.js** (wersja v18 lub wyższa).
+
+### Dostępne skrypty:
+1. **Instalacja bibliotek i zależności:**
+   ```bash
+   npm install
+   ```
+2. **Uruchomienie w trybie deweloperskim:**
+   ```bash
+   npm run dev
+   ```
+   Aplikacja będzie dostępna pod adresem lokalnym: `http://localhost:5173`.
+3. **Uruchomienie automatycznych testów:**
+   ```bash
+   npm test
+   ```
+4. **Weryfikacja jakości kodu linterem:**
+   ```bash
+   npm run lint
+   ```
+5. **Budowanie wersji produkcyjnej:**
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 7. Podsumowanie zespołu
+
+Projekt sklepu budowlanego **BudMaster** został pomyślnie zrealizowany. Aplikacja posiada kompletny katalog towarów, modułowy konfigurator domków ogrodowych oraz w pełni działającą ścieżkę finalizacji zamówienia w kasie. Wszystkie zgłoszone błędy interfejsu zostały usunięte, a wysoka jakość kodu została potwierdzona zestawem 89 testów automatycznych.

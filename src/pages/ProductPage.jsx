@@ -5,11 +5,20 @@ import Footer from '../components/Footer'
 import ProductCard from '../components/ProductCard'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
-import { products, categories, reviews as defaultReviews } from '../data/products'
+import {
+  products,
+  categories,
+  configuratorProducts,
+  configuratorCategories,
+  categoryIcons,
+  reviews as defaultReviews,
+} from '../data/products'
 
 export default function ProductPage() {
   const { id } = useParams()
-  const product = products.find((p) => p.id === Number(id))
+  const allProducts = [...products, ...configuratorProducts]
+  const allCategories = [...categories, ...configuratorCategories]
+  const product = allProducts.find((p) => p.id === Number(id))
   const { addToCart } = useCart()
   const { user } = useAuth()
   const [count, setCount] = useState(1)
@@ -36,8 +45,9 @@ export default function ProductPage() {
     )
   }
 
-  const category = categories.find((c) => c.id === product.categoryId)
-  const relatedProducts = products.filter(
+  const category = allCategories.find((c) => c.id === product.categoryId)
+  const catVisual = categoryIcons[product.categoryId] || { icon: '🏗️', bg: 'from-orange-50 to-amber-100' }
+  const relatedProducts = allProducts.filter(
     (p) => p.categoryId === product.categoryId && p.id !== product.id
   )
 
@@ -90,8 +100,8 @@ export default function ProductPage() {
           {/* Product Hero Grid */}
           <div className="bg-white rounded-3xl border border-gray-200/90 shadow-sm p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Visual Column */}
-            <div className="aspect-square bg-gradient-to-br from-amber-50 via-orange-50 to-stone-100 rounded-2xl border border-gray-200/80 flex flex-col items-center justify-center p-8 relative overflow-hidden">
-              <span className="text-9xl drop-shadow-md select-none">🏗️</span>
+            <div className={`aspect-square bg-gradient-to-br ${catVisual.bg} rounded-2xl border border-gray-200/80 flex flex-col items-center justify-center p-8 relative overflow-hidden`}>
+              <span className="text-9xl drop-shadow-md select-none" data-testid="product-icon">{catVisual.icon}</span>
               <span className="absolute top-4 left-4 text-xs font-bold uppercase tracking-wider px-3 py-1 bg-white/90 rounded-full text-gray-700 shadow-sm">
                 ID Produktu: #{product.id}
               </span>

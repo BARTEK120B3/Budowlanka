@@ -44,6 +44,8 @@ export function CartProvider({ children }) {
 
   const clearCart = useCallback(() => {
     persist([])
+    setConfiguratorItems([])
+    localStorage.removeItem('budowlany_configurator_cart')
   }, [])
 
   const addConfiguratorToCart = useCallback((config) => {
@@ -54,8 +56,16 @@ export function CartProvider({ children }) {
     })
   }, [])
 
+  const removeConfiguratorFromCart = useCallback((configId) => {
+    setConfiguratorItems((prev) => {
+      const updated = prev.filter((c) => c.id !== configId)
+      localStorage.setItem('budowlany_configurator_cart', JSON.stringify(updated))
+      return updated
+    })
+  }, [])
+
   const totalPrice = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
-  const totalCount = items.reduce((sum, i) => sum + i.quantity, 0)
+  const totalCount = items.reduce((sum, i) => sum + i.quantity, 0) + configuratorItems.length
 
   return (
     <CartContext.Provider
@@ -66,6 +76,7 @@ export function CartProvider({ children }) {
         removeFromCart,
         clearCart,
         addConfiguratorToCart,
+        removeConfiguratorFromCart,
         totalPrice,
         totalCount,
       }}

@@ -20,7 +20,7 @@ export default function HomePage() {
           <p className="mt-6 text-lg sm:text-xl md:text-2xl text-gray-300 max-w-2xl font-light">
             Twój jedyny wybór w materiałach budowlanych
           </p>
-          <div className="mt-10 flex flex-wrap gap-4 justify-center text-semibold text-orange-300">
+          <div className="mt-10 flex flex-wrap gap-4 justify-center">
             <Link
               to="/store"
               className="px-8 py-4 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg shadow-lg hover:shadow-orange-600/30 hover:-translate-y-0.5 transition-all"
@@ -54,7 +54,7 @@ export default function HomePage() {
               <div className="mt-8">
                 <Link
                   to="/configurator"
-                  className="inline-flex items-center px-8 py-3.5 rounded-xl bg-white text-orange-700 hover:bg-orange-50 font-bold text-lg shadow-md hover:-translate-y-0.5 transition-all text-orange-300"
+                  className="inline-flex items-center px-8 py-3.5 rounded-xl bg-white text-orange-700 hover:bg-orange-50 font-bold text-lg shadow-md hover:-translate-y-0.5 transition-all"
                 >
                   Konfigurator
                 </Link>

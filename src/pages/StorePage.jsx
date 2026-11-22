@@ -17,6 +17,7 @@ export default function StorePage() {
       result = result.filter(
         (p) =>
           p.name.toLowerCase().includes(term) ||
+          p.description?.toLowerCase().includes(term) ||
           categories.find((c) => c.id === p.categoryId)?.name.toLowerCase().includes(term)
       )
     }

@@ -205,3 +205,18 @@ export const configuratorProducts = [
   { id: 210, name: 'Okno uchylne PCV 60x80', price: 320.00, image: '/img/okno.jpg', categoryId: 105 },
   { id: 211, name: 'Okno stałe PCV 100x60', price: 280.00, image: '/img/okno_stale.jpg', categoryId: 105 },
 ]
+
+export const categoryIcons = {
+  1: { icon: '🔨', bg: 'from-amber-100 to-orange-100', label: 'Narzędzia ręczne' },
+  2: { icon: '⚡', bg: 'from-blue-100 to-indigo-100', label: 'Elektronarzędzia' },
+  3: { icon: '🧱', bg: 'from-stone-100 to-amber-100', label: 'Materiały' },
+  4: { icon: '🔧', bg: 'from-cyan-100 to-teal-100', label: 'Instalacje' },
+  5: { icon: '🎨', bg: 'from-rose-100 to-pink-100', label: 'Farby' },
+  6: { icon: '💡', bg: 'from-yellow-100 to-amber-100', label: 'Oświetlenie' },
+  101: { icon: '🪵', bg: 'from-amber-100 to-yellow-100', label: 'Ściany' },
+  102: { icon: '🏠', bg: 'from-slate-100 to-gray-200', label: 'Dach' },
+  103: { icon: '🪵', bg: 'from-orange-100 to-amber-200', label: 'Podłoga' },
+  104: { icon: '🚪', bg: 'from-stone-100 to-stone-200', label: 'Drzwi' },
+  105: { icon: '🪟', bg: 'from-sky-100 to-blue-200', label: 'Okna' },
+}
+
