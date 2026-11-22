@@ -1,0 +1,207 @@
+export const categories = [
+  { id: 1, name: 'Narzędzia ręczne', description: 'Młotki, śrubokręty, klucze, piły ręczne' },
+  { id: 2, name: 'Elektronarzędzia', description: 'Wiertarki, szlifierki, pilarki elektryczne' },
+  { id: 3, name: 'Materiały budowlane', description: 'Cement, kleje, zaprawy, gipsy' },
+  { id: 4, name: 'Instalacje', description: 'Rury, kształtki, zawory, przewody' },
+  { id: 5, name: 'Farby i lakiery', description: 'Farby ścienne, lakiery, impregnaty' },
+  { id: 6, name: 'Oświetlenie', description: 'Żarówki, lampy, oprawy LED' },
+]
+
+export const products = [
+  {
+    id: 1,
+    name: 'Młotek ślusarski 500g',
+    description: 'Młotek ślusarski z trzonkiem z włókna szklanego. Waga główki 500g. Hartowana stal C45.',
+    price: 45.99,
+    image: '/img/mlotek.jpg',
+    categoryId: 1,
+  },
+  {
+    id: 2,
+    name: 'Wiertarko-wkrętarka Bosch 18V',
+    description: 'Akumulatorowa wiertarko-wkrętarka 18V. 2 biegi, uchwyt 13mm, moment obr. 50Nm. Zestaw z 2 akumulatorami Li-Ion 2.0Ah.',
+    price: 549.00,
+    image: '/img/wiertarka.jpg',
+    categoryId: 2,
+  },
+  {
+    id: 3,
+    name: 'Cement portlandzki CEM I 42,5R 25kg',
+    description: 'Cement portlandzki klasy 42,5R. Worek 25kg. Do betonu, zapraw murarskich i tynkarskich.',
+    price: 22.50,
+    image: '/img/cement.jpg',
+    categoryId: 3,
+  },
+  {
+    id: 4,
+    name: 'Rura PVC-U kanalizacyjna fi110',
+    description: 'Rura kanalizacyjna PVC-U fi110mm, długość 2m. Do instalacji wewnętrznej.',
+    price: 18.90,
+    image: '/img/rura.jpg',
+    categoryId: 4,
+  },
+  {
+    id: 5,
+    name: 'Farba lateksowa biała 10L',
+    description: 'Farba lateksowa do ścian i sufitów. Kolor biały mat. Wydajność 12-14 m²/l.',
+    price: 129.99,
+    image: '/img/farba.jpg',
+    categoryId: 5,
+  },
+  {
+    id: 6,
+    name: 'Panel LED 60x60 40W',
+    description: 'Panel LED natynkowy/podtynkowy. Moc 40W, 4000lm, barwa neutralna 4000K.',
+    price: 89.00,
+    image: '/img/panel_led.jpg',
+    categoryId: 6,
+  },
+  {
+    id: 7,
+    name: 'Szlifierka kątowa 125mm 1200W',
+    description: 'Szlifierka kątowa z tarczą 125mm. Moc 1200W, obroty 11000 obr/min. Blokada wrzeciona.',
+    price: 299.00,
+    image: '/img/szlifierka.jpg',
+    categoryId: 2,
+  },
+  {
+    id: 8,
+    name: 'Klej do płytek elastyczny C2TE 25kg',
+    description: 'Elastyczny klej cementowy klasy C2TE do płytek ceramicznych i gresowych. Worek 25kg.',
+    price: 54.90,
+    image: '/img/klej.jpg',
+    categoryId: 3,
+  },
+  {
+    id: 9,
+    name: 'Zestaw kluczy nasadowych 1/2" 24szt',
+    description: 'Zestaw kluczy nasadowych 1/2" w walizce. 24 elementy: nasadki 10-32mm, pokrętło, przedłużki.',
+    price: 189.00,
+    image: '/img/klucze_nasadowe.jpg',
+    categoryId: 1,
+  },
+  {
+    id: 10,
+    name: 'Piła tarczowa 1400W',
+    description: 'Ręczna pilarka tarczowa. Moc 1400W, tarcza 185mm, głębokość cięcia 65mm.',
+    price: 419.00,
+    image: '/img/pilarka.jpg',
+    categoryId: 2,
+  },
+  {
+    id: 11,
+    name: 'Zaprawa tynkarska cementowo-wapienna 25kg',
+    description: 'Zaprawa tynkarska do stosowania wewnątrz i na zewnątrz. Worek 25kg.',
+    price: 15.90,
+    image: '/img/zaprawa.jpg',
+    categoryId: 3,
+  },
+  {
+    id: 12,
+    name: 'Żarówka LED E27 10W 3000K',
+    description: 'Żarówka LED E27 o mocy 10W (odpowiednik 75W). Ciepła barwa 3000K, 1055lm.',
+    price: 8.99,
+    image: '/img/zarowka.jpg',
+    categoryId: 6,
+  },
+  {
+    id: 13,
+    name: 'Impregnat do drewna 5L',
+    description: 'Impregnat ochronno-dekoracyjny do drewna. Kolory: orzech, dąb, mahoń. Poj. 5L.',
+    price: 79.00,
+    image: '/img/impregnat.jpg',
+    categoryId: 5,
+  },
+  {
+    id: 14,
+    name: 'Rura miedziana fi18 1m',
+    description: 'Rura miedziana fi18x1mm, długość 1m. Do instalacji wodnych i c.o.',
+    price: 32.50,
+    image: '/img/rura_miedziana.jpg',
+    categoryId: 4,
+  },
+  {
+    id: 15,
+    name: 'Wkrętak krzyżowy PH2 x 150mm',
+    description: 'Wkrętak krzyżowy PH2 z hartowaną końcówką. Długość trzpienia 150mm. Rękojeść dwukomponentowa.',
+    price: 24.90,
+    image: '/img/wkretak.jpg',
+    categoryId: 1,
+  },
+  {
+    id: 16,
+    name: 'Lakier akrylowy bezbarwny 0.75L',
+    description: 'Lakier akrylowy bezbarwny, satynowy. Do drewna i metalu. Szybkoschnący.',
+    price: 39.90,
+    image: '/img/lakier.jpg',
+    categoryId: 5,
+  },
+  {
+    id: 17,
+    name: 'Przewód YDYp 3x2,5 100m',
+    description: 'Przewód elektryczny płaski YDYp 3x2,5mm². Krążek 100m. Do instalacji podtynkowej.',
+    price: 289.00,
+    image: '/img/przewod.jpg',
+    categoryId: 4,
+  },
+  {
+    id: 18,
+    name: 'Poziomnica laserowa samopoziomująca',
+    description: 'Laser krzyżowy zielony, zasięg 30m. Samopoziomowanie ±4°. Statyw w zestawie.',
+    price: 349.00,
+    image: '/img/poziomnica.jpg',
+    categoryId: 1,
+  },
+  {
+    id: 19,
+    name: 'Gips szpachlowy 20kg',
+    description: 'Gips szpachlowy do wykańczania ścian. Drobnoziarnisty, łatwy w obróbce. Worek 20kg.',
+    price: 29.90,
+    image: '/img/gips.jpg',
+    categoryId: 3,
+  },
+  {
+    id: 20,
+    name: 'Plafon LED 24W z czujnikiem ruchu',
+    description: 'Plafon LED 24W z wbudowanym czujnikiem ruchu. Barwa neutralna 4000K, IP44.',
+    price: 109.00,
+    image: '/img/plafon.jpg',
+    categoryId: 6,
+  },
+]
+
+export const reviews = [
+  { id: 1, content: 'Świetny młotek, dobrze leży w dłoni. Polecam!', productId: 1, clientName: 'Jan Kowalski' },
+  { id: 2, content: 'Wiertarka działa bez zarzutu, akumulatory trzymają długo.', productId: 2, clientName: 'Anna Nowak' },
+  { id: 3, content: 'Cement dobrej jakości, szybko wiąże.', productId: 3, clientName: 'Piotr Wiśniewski' },
+  { id: 4, content: 'Farba kryje w jednej warstwie, super wydajność.', productId: 5, clientName: 'Maria Zielińska' },
+  { id: 5, content: 'Panel LED jasny i równomierny. Idealne do biura.', productId: 6, clientName: 'Tomasz Lewandowski' },
+]
+
+// Konfigurator domku narzędziowego (odpowiednik guitar creator)
+export const configuratorCategories = [
+  { id: 101, name: 'Ściany', description: 'Materiał na ściany domku' },
+  { id: 102, name: 'Dach', description: 'Pokrycie dachowe' },
+  { id: 103, name: 'Podłoga', description: 'Materiał na podłogę' },
+  { id: 104, name: 'Drzwi', description: 'Drzwi do domku' },
+  { id: 105, name: 'Okna', description: 'Okna do domku' },
+]
+
+export const configuratorProducts = [
+  // Ściany
+  { id: 201, name: 'Deska elewacyjna sosnowa', price: 850.00, image: '/img/deska_sosnowa.jpg', categoryId: 101 },
+  { id: 202, name: 'Panel OSB 18mm', price: 620.00, image: '/img/osb.jpg', categoryId: 101 },
+  { id: 203, name: 'Blacha trapezowa T18', price: 480.00, image: '/img/blacha_sciana.jpg', categoryId: 101 },
+  // Dach
+  { id: 204, name: 'Blachodachówka modułowa', price: 1200.00, image: '/img/blachodachowka.jpg', categoryId: 102 },
+  { id: 205, name: 'Gont bitumiczny', price: 750.00, image: '/img/gont.jpg', categoryId: 102 },
+  // Podłoga
+  { id: 206, name: 'Deska tarasowa kompozytowa', price: 980.00, image: '/img/deska_tarasowa.jpg', categoryId: 103 },
+  { id: 207, name: 'Płyta betonowa 50x50', price: 350.00, image: '/img/plyta_betonowa.jpg', categoryId: 103 },
+  // Drzwi
+  { id: 208, name: 'Drzwi drewniane pełne', price: 650.00, image: '/img/drzwi.jpg', categoryId: 104 },
+  { id: 209, name: 'Drzwi z okienkiem', price: 820.00, image: '/img/drzwi_okienko.jpg', categoryId: 104 },
+  // Okna
+  { id: 210, name: 'Okno uchylne PCV 60x80', price: 320.00, image: '/img/okno.jpg', categoryId: 105 },
+  { id: 211, name: 'Okno stałe PCV 100x60', price: 280.00, image: '/img/okno_stale.jpg', categoryId: 105 },
+]
